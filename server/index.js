@@ -17,7 +17,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001", "https://zidio-task-management-frontend.onrender.com", "https://zidio-task-management-livid.vercel.app/"],
+    origin: ["http://localhost:3000", "http://localhost:3001", "https://zidio-task-management-livid.vercel.app"],
     methods: ["GET", "POST", "DELETE", "PUT"],
     credentials: true,
   })
