@@ -128,6 +128,8 @@ const getNotificationsList = asyncHandler(async (req, res) => {
     .populate("task", "title")
     .sort({ _id: -1 });
 
+    console.log(notice)
+
   res.status(200).json(notice);
 });
 
@@ -225,14 +227,6 @@ const activateUserProfile = asyncHandler(async (req, res) => {
 
 const changeUserPassword = asyncHandler(async (req, res) => {
   const { userId } = req.user;
-
-  // Remove this condition
-  if (userId === "65ff94c7bb2de638d0c73f63") {
-    return res.status(404).json({
-      status: false,
-      message: "This is a test user. You can not chnage password. Thank you!!!",
-    });
-  }
 
   const user = await User.findById(userId);
 

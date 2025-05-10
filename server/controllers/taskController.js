@@ -35,9 +35,9 @@ const createTask = asyncHandler(async (req, res) => {
     const task = await Task.create({
       title,
       team,
-      stage: stage.toLowerCase(),
+      stage: stage?.toLowerCase(),
       date,
-      priority: priority.toLowerCase(),
+      priority: priority?.toLowerCase(),
       assets,
       activities: activity,
       links: newLinks || [],
@@ -75,12 +75,12 @@ const duplicateTask = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
     const { userId } = req.user;
-
+    
     const task = await Task.findById(id);
-
+    
     //alert users of the task
     let text = "New task has been assigned to you";
-    if (team.team?.length > 1) {
+    if (task.team?.length > 1) {
       text = text + ` and ${task.team?.length - 1} others.`;
     }
 
@@ -98,11 +98,17 @@ const duplicateTask = asyncHandler(async (req, res) => {
       by: userId,
     };
 
+    
+
     const newTask = await Task.create({
       ...task,
       title: "Duplicate - " + task.title,
+      
     });
+    
 
+
+    console.log("hello")
     newTask.team = task.team;
     newTask.subTasks = task.subTasks;
     newTask.assets = task.assets;
@@ -142,20 +148,20 @@ const updateTask = asyncHandler(async (req, res) => {
       newLinks = links.split(",");
     }
 
-    task.title = title;
-    task.date = date;
-    task.priority = priority.toLowerCase();
-    task.assets = assets;
-    task.stage = stage.toLowerCase();
-    task.team = team;
-    task.links = newLinks;
-    task.description = description;
+    task.title = title || task.title;
+    task.date = date || task.date;
+    task.priority = priority?.toLowerCase() || task.priority;
+    task.assets = assets || task.assets;
+    task.stage = stage?.toLowerCase() || task.stage;
+    task.team = team || task.team;
+    task.links = newLinks || task.links;
+    task.description = description || task.description;
 
     await task.save();
 
     res
       .status(200)
-      .json({ status: true, message: "Task duplicated successfully." });
+      .json({ status: true, message: "Task updated successfully." });
   } catch (error) {
     return res.status(400).json({ status: false, message: error.message });
   }
