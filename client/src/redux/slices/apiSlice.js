@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // const API_URL = import.meta.env.VITE_APP_BASE_URL + "/api";
-const API_URL = process.env.NODE_ENV === 'production'? "https://zidio-task-management-eecc.onrender.com": "http://localhost:8800/api";
+const API_URL = import.meta.env.MODE === "production" === 'production'? "https://zidio-task-management-eecc.onrender.com": import.meta.env.VITE_API_URL;
 
 const baseQuery = fetchBaseQuery({ baseUrl: API_URL });
 
